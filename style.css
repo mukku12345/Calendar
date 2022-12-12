@@ -89,3 +89,7 @@ input::placeholder {
   background-color: #030fefa6;
    cursor: pointer;
 }
+.btn{
+    background-color: #fbc7d4;
+    border: none;
+  }
