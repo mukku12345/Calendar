@@ -45,13 +45,19 @@ body {
   border: 1px solid black;
   border-collapse: collapse;
   margin-bottom: 2rem;
+  cursor:pointer;
+  
 }
+
 
 tr {
   height: 50px;
 }
 td {
   text-align: center;
+}
+.td:hover{
+background-color:#9796f0;
 }
 .green {
   background-color: #52ab52;
