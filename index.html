@@ -1,71 +1,152 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CALENDAR Zygal 2022</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="https://png.pngtree.com/png-vector/20211015/ourmid/pngtree-calendar-icon-flat-png-image_3983660.png">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./script.js" defer></script>
+    <title>Calender</title>
   </head>
   <body>
-
-    <div class="contianer">
-      <div class="calendar">
-        <div class="calendar-header">
-          <span class="month-picker" id="month-picker"> May </span>
-          <div class="year-picker" id="year-picker">
-            <span class="year-change" id="pre-year">
-              <pre><</pre>
-            </span>
-
-            <span id="year">2020 </span>
-            <span class="year-change" id="next-year">
-              <pre>></pre>
-            </span>
-
-          </div>
-        </div>
-
- 
-        <div class="calendar-body">
-
-            <div class="calendar-week-days">
-              <div>Sun</div>
-              <div>Mon</div>
-              <div>Tue</div>
-              <div>Wed</div>
-              <div>Thu</div>
-              <div>Fri</div>
-              <div>Sat</div>
-          </div>
-
-          <div class="calendar-days"></div>
-
-        </div>
-
-        <div class="calendar-footer"></div>
-
-
-     <div class="date-time-formate">
-          <div class="day-text-formate">TODAY</div>
-          <div class="date-time-value">
-            <div class="time-formate">02:51:20</div>
-            <div class="date-formate">23 - july - 2022</div>
-          </div>
-        </div>
-
- <div class="date-search">
-            <input class="date-search-input"  id="searchInput" type="text"/>
-            <button class="date-search-button" onclick="toogle()">Enter</button>
-
-        </div>
-
-        <div class="month-list">
-
-        </div>
-
+    <div class="container">
+      <div class="dropdown-section">
+        <select
+          class="selection select-month"
+          id="selected-month"
+          onchange="updateMonth()"
+        >
+          <option>Select Month</option>
+          <option value="1" selected>January</option>
+          <option value="2">February</option>
+          <option value="3">March</option>
+          <option value="4">April</option>
+          <option value="5">May</option>
+          <option value="5">June</option>
+          <option value="7">July</option>
+          <option value="8">August</option>
+          <option value="9">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+        <select class="selection" id="selected-year" onchange="updateYear()">
+          <option>Select Year</option>
+          <option selected>1990</option>
+          <option>1991</option>
+          <option>1992</option>
+          <option>1993</option>
+          <option>1994</option>
+          <option>1995</option>
+          <option>1996</option>
+          <option>1997</option>
+          <option>1998</option>
+          <option>1999</option>
+          <option>2001</option>
+          <option>2002</option>
+          <option>2003</option>
+          <option>2004</option>
+          <option>2005</option>
+          <option>2006</option>
+          <option>2007</option>
+          <option>2008</option>
+          <option>2009</option>
+          <option>2010</option>
+          <option>2011</option>
+          <option>2012</option>
+          <option>2013</option>
+          <option>2014</option>
+          <option>2015</option>
+          <option>2016</option>
+          <option>2017</option>
+          <option>2018</option>
+          <option>2019</option>
+          <option>2020</option>
+          <option>2021</option>
+          <option>2022</option>
+          <option>2023</option>
+        </select>
+      </div>
+      <div class="calender">
+        <table class="table" border="1">
+          <thead>
+            <tr>
+              <th>SUN</th>
+              <th>MON</th>
+              <th>TUE</th>
+              <th>WED</th>
+              <th>THU</th>
+              <th>FRI</th>
+              <th>SAT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="box1"></td>
+              <td id="box2"></td>
+              <td id="box3"></td>
+              <td id="box4"></td>
+              <td id="box5"></td>
+              <td id="box6"></td>
+              <td id="box7"></td>
+            </tr>
+            <tr>
+              <td id="box1"></td>
+              <td id="box2"></td>
+              <td id="box3"></td>
+              <td id="box4"></td>
+              <td id="box5"></td>
+              <td id="box6"></td>
+              <td id="box7"></td>
+            </tr>
+            <tr>
+              <td id="box1"></td>
+              <td id="box2"></td>
+              <td id="box3"></td>
+              <td id="box4"></td>
+              <td id="box5"></td>
+              <td id="box6"></td>
+              <td id="box7"></td>
+            </tr>
+            <tr>
+              <td id="box1"></td>
+              <td id="box2"></td>
+              <td id="box3"></td>
+              <td id="box4"></td>
+              <td id="box5"></td>
+              <td id="box6"></td>
+              <td id="box7"></td>
+            </tr>
+            <tr>
+              <td id="box1"></td>
+              <td id="box2"></td>
+              <td id="box3"></td>
+              <td id="box4"></td>
+              <td id="box5"></td>
+              <td id="box6"></td>
+              <td id="box7"></td>
+            </tr>
+            <tr>
+              <td id="box1"></td>
+              <td id="box2"></td>
+              <td id="box3"></td>
+              <td id="box4"></td>
+              <td id="box5"></td>
+              <td id="box6"></td>
+              <td id="box7"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="enter-date">
+        <input
+          type="number"
+          class="input-date"
+          id="entered-date"
+          placeholder="Enter Any Date"
+        />
+        <button class="btn" onclick="markedDate()">ENTER</button>
       </div>
     </div>
   </body>
-</html>
+</html
