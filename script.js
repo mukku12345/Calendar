@@ -1,155 +1,128 @@
-const isLeapYear = (year) => {
-    return (
-      (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) ||
-      (year % 100 === 0 && year % 400 === 0)
-    );
-  };
-  const getFebDays = (year) => {
-    return isLeapYear(year) ? 29 : 28;
-  };
-  let calendar = document.querySelector('.calendar');
-  const month_names = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-  let month_picker = document.querySelector('#month-picker');
-  const dayTextFormate = document.querySelector('.day-text-formate');
-  const timeFormate = document.querySelector('.time-formate');
-  const dateFormate = document.querySelector('.date-formate');
-  
-  month_picker.onclick = () => {
-    month_list.classList.remove('hideonce');
-    month_list.classList.remove('hide');
-    month_list.classList.add('show');
-    dayTextFormate.classList.remove('showtime');
-    dayTextFormate.classList.add('hidetime');
-    timeFormate.classList.remove('showtime');
-    timeFormate.classList.add('hideTime');
-    dateFormate.classList.remove('showtime');
-    dateFormate.classList.add('hideTime');
-  };
-  
-  const generateCalendar = (month, year) => {
-    let calendar_days = document.querySelector('.calendar-days');
-    calendar_days.innerHTML = '';
-    let calendar_header_year = document.querySelector('#year');
-    let days_of_month = [
-      31,
-      getFebDays(year),
-      31,
-      30,
-      31,
-      30,
-      31,
-      31,
-      30,
-      31,
-      30,
-      31,
-    ];
-    
-    let currentDate = new Date();
-    
-    month_picker.innerHTML = month_names[month];
-    
-    calendar_header_year.innerHTML = year;
-    
-    let first_day = new Date(year, month);
-  
-  
-  for (let i = 0; i <= days_of_month[month] + first_day.getDay() - 1; i++) {
-  
-      let day = document.createElement('div');
-  
-      if (i >= first_day.getDay()) {
-        day.innerHTML = i - first_day.getDay() + 1;
+let selectedMonth = +document.querySelector("#selected-month").value;
+let selectedYear = +document.querySelector("#selected-year").value;
+const greenMarkedDates = new Array(31).fill(false, 0, 31);
+// const newGreenMarkedDates = greenMarkedDates;
 
-        if (i - first_day.getDay() + 1 === currentDate.getDate() &&
-          year === currentDate.getFullYear() &&
-          month === currentDate.getMonth()
-        ) {
-          day.classList.add('current-date');
-        }
+const updateMonth = () => {
+  selectedMonth = +document.querySelector("#selected-month").value;
+  clearTable();
+  renderTableData();
+};
+const updateYear = () => {
+  selectedYear = +document.querySelector("#selected-year").value;
+  clearTable();
+  renderTableData();
+};
+
+function markedDate() {
+  console.log("inside markedDate");
+  let enteredDate = document.querySelector("#entered-date").value;
+  if (enteredDate === "") {
+    alert("Please enter a date");
+  } else if (
+    +enteredDate <= 0 ||
+    +enteredDate > getNumberOfDaysInMonth(selectedMonth, selectedYear)
+  ) {
+    alert("Please enter a valid date for selected month and year");
+  } else {
+    firstDay = getFirstDayOfMonth();
+    let td = document.querySelectorAll("td");
+    for (let i = 0; i < td.length; i++) {
+      if (td[i].innerHTML === enteredDate) {
+        td[i].classList.toggle("green");
       }
-      calendar_days.appendChild(day);
     }
-  };
-  
-  let month_list = calendar.querySelector('.month-list');
-  month_names.forEach((e, index) => {
-    let month = document.createElement('div');
-    month.innerHTML = `<div>${e}</div>`;
-  
-    month_list.append(month);
-    month.onclick = () => {
-      currentMonth.value = index;
-      generateCalendar(currentMonth.value, currentYear.value);
-      month_list.classList.replace('show', 'hide');
-      dayTextFormate.classList.remove('hideTime');
-      dayTextFormate.classList.add('showtime');
-      timeFormate.classList.remove('hideTime');
-      timeFormate.classList.add('showtime');
-      dateFormate.classList.remove('hideTime');
-      dateFormate.classList.add('showtime');
-    };
-  });
-  
-  (function () {
-    month_list.classList.add('hideonce');
-  })();
-  document.querySelector('#pre-year').onclick = () => {
-    --currentYear.value;
-    generateCalendar(currentMonth.value, currentYear.value);
-  };
-  document.querySelector('#next-year').onclick = () => {
-    ++currentYear.value;
-    generateCalendar(currentMonth.value, currentYear.value);
-  };
-  
-  let currentDate = new Date();
-  let currentMonth = { value: currentDate.getMonth() };
-  let currentYear = { value: currentDate.getFullYear() };
-  generateCalendar(currentMonth.value, currentYear.value);
+    greenMarkedDates[enteredDate - 1] = !greenMarkedDates[enteredDate - 1];
+    console.log(greenMarkedDates);
+  }
+  document.querySelector("#entered-date").value = "";
+}
 
-  const todayShowTime = document.querySelector('.time-formate');
-  const todayShowDate = document.querySelector('.date-formate');
-  
-  const currshowDate = new Date();
-  const showCurrentDateOption = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    weekday: 'long',
-  };
-  const currentDateFormate = new Intl.DateTimeFormat(
-    'en-US',
-    showCurrentDateOption
-  ).format(currshowDate);
-  todayShowDate.textContent = currentDateFormate;
-  setInterval(() => {
-    const timer = new Date();
-    const option = {
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-    };
-    const formateTimer = new Intl.DateTimeFormat('en-us', option).format(timer);
-    let time = `${`${timer.getHours()}`.padStart(
-      2,
-      '0'
-    )}:${`${timer.getMinutes()}`.padStart(
-      2,
-      '0'
-    )}: ${`${timer.getSeconds()}`.padStart(2, '0')}`;
-    todayShowTime.textContent = formateTimer;
-  }, 1000);
+renderTableData();
+function clearTable() {
+  let td = document.querySelectorAll("td");
+  for (let i = 0; i < 42; i++) {
+    td[i].innerHTML = "";
+    if (td[i].classList.contains("green")) {
+      td[i].classList.remove("green");
+    }
+  }
+}
+
+function renderTableData() {
+  let td = document.querySelectorAll("td");
+  const noOfDays = getNumberOfDaysInMonth(selectedMonth, selectedYear);
+  let count = 1;
+  let firstDay = getFirstDayOfMonth();
+  for (let i = firstDay; i < firstDay + noOfDays; i++) {
+    td[i].innerHTML = count;
+    count++;
+  }
+  for (let i = 0; i < 31; i++) {
+    if (greenMarkedDates[i] === true) {
+      td[firstDay + i].classList.add("green");
+    }
+  }
+}
+
+function getNumberOfDaysInMonth(month, year) {
+  if (month === 2) {
+    if (isLeapYear(year)) {
+      return 29;
+    } else {
+      return 28;
+    }
+  } else if (
+    month === 1 ||
+    month === 3 ||
+    month === 5 ||
+    month === 7 ||
+    month === 8 ||
+    month === 10 ||
+    month === 12
+  ) {
+    return 31;
+  } else {
+    return 30;
+  }
+}
+
+function getFirstDayOfMonth() {
+  let oddDays = 0;
+  let leapYear = 0;
+  let ordinaryYear = 0;
+  if (selectedYear <= 2000) {
+    leapYear = getNumberOfLeapYear(selectedYear - 1 - 1900);
+    ordinaryYear = selectedYear - 1 - 1900 - leapYear;
+    oddDays += 1 + (leapYear * 2 + ordinaryYear * 1);
+  } else {
+    leapYear = getNumberOfLeapYear(selectedYear - 1 - 2000);
+    ordinaryYear = selectedYear - 1 - 2000 - leapYear;
+    oddDays += leapYear * 2 + ordinaryYear * 1;
+  }
+
+  const monthWiseOddDaysForOrdinaryYear = [3, 0, 3, 2, 3, 2, 3, 3, 2, 3, 2, 3];
+  const monthWiseOddDaysForLeapYear = [3, 1, 3, 2, 3, 2, 3, 3, 2, 3, 2, 3];
+  for (let i = 0; i < selectedMonth - 1; i++) {
+    if (isLeapYear(selectedYear)) {
+      oddDays += monthWiseOddDaysForLeapYear[i];
+    } else {
+      oddDays += monthWiseOddDaysForOrdinaryYear[i];
+    }
+  }
+  oddDays += 1;
+  return oddDays % 7;
+}
+function getNumberOfLeapYear(yearCount) {
+  return Math.floor(yearCount / 4);
+}
+
+function isLeapYear(year) {
+  if (year === 2000) {
+    return true;
+  } else if (year % 4 === 0) {
+    return true;
+  } else {
+    false;
+  }
+}
