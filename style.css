@@ -13,6 +13,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+   background:linear-gradient(to right, #9796f0, #fbc7d4);
 }
 
 .container {
@@ -80,4 +81,5 @@ input::placeholder {
   font-weight: bold;
   border: none;
   background-color: #030fefa6;
+   cursor: pointer;
 }
